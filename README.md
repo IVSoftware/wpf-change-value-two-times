@@ -25,7 +25,7 @@ private async void Button_Click(object sender, RoutedEventArgs e)
 [![screenshots][1]][1]
 ___
 
-Here's the full code I used to test this answer.
+Another possible point of failure is bindings that aren't bound to the intended models. If this is the case, it still won't work in spite of changing the click handler. So, out of an abundance of caution, here's the full code I used to test this answer.
 
 ##### Xaml
 
