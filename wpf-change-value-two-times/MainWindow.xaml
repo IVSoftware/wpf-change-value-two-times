@@ -6,15 +6,58 @@
         xmlns:local="clr-namespace:wpf_change_value_two_times"
         mc:Ignorable="d"
         Title="MainWindow" Height="300" Width="500">
+
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <local:MainWindowViewModel x:Key="ViewModel"/>
+        <Style x:Key="CenteredContentStyle" TargetType="Control">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Height" Value="50"/>
+            <Setter Property="Width" Value="100"/>
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Label Name="Busy" Content="Busy" Visibility="{Binding Path=BusyVisibility, UpdateSourceTrigger=PropertyChanged}" />
-        <Label Name="Ready" Content="Ready" Visibility="{Binding Path=ReadyVisibility, UpdateSourceTrigger=PropertyChanged}" Grid.Row="0" />
+        <Grid Grid.Row="0">
+            <Label 
+                Style="{StaticResource CenteredContentStyle}"
+                Content="Ready" 
+                Visibility="{Binding Status.ReadyVisibility}"
+                Background="Green"
+                Foreground="White" />
+            <Label
+                Style="{StaticResource CenteredContentStyle}"
+                Content="Busy"
+                Visibility="{Binding Status.BusyVisibility}"  
+                Grid.Column="0"
+                Background="LightSalmon"
+                Foreground="Yellow"  />
+        </Grid>
 
-        <Button IsEnabled="{Binding IsButtonEnabled}" Content="Test" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" Height="50" Width="100" Click="Button_Click"/>
+        <Button 
+            Style="{StaticResource CenteredContentStyle}"
+            IsEnabled="{Binding Status.IsButtonEnabled}" 
+            Content="Test"
+            Grid.Row="1"
+            Click="Button_Click"/>
+
+        <ProgressBar 
+            x:Name="progressBar" 
+            Grid.Row="2"
+            Minimum="0" 
+            Maximum="100" 
+            Height="20"
+            HorizontalAlignment="Stretch"/>
     </Grid>
 </Window>

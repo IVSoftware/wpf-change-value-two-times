@@ -18,21 +18,33 @@ namespace wpf_change_value_two_times
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
-        {
-            InitializeComponent();
-            base.DataContext = new Status();
-        }
-        new Status DataContext =>(Status)base.DataContext;
+        public MainWindow() => InitializeComponent();
+        new MainWindowViewModel DataContext => (MainWindowViewModel)base.DataContext;
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            DataContext.ReadyVisibility = Visibility.Hidden;
-            // Processing ..
-            await Task.Delay(TimeSpan.FromSeconds(2.5));
+            DataContext.Status.ReadyVisibility = Visibility.Hidden;
 
-            DataContext.ReadyVisibility = Visibility.Visible;
+            var progress = new Progress<int>(percent =>
+            {
+                progressBar.Value = percent;
+            });
+            await Task.Run(() =>
+            {
+                // Simulate a 2 S background processing task.
+                for (int i = 0; i <= 20; i++)
+                {
+                    ((IProgress<int>)progress).Report(i * 5);
+                    Thread.Sleep(100);
+                }
+            });
+
+            DataContext.Status.ReadyVisibility = Visibility.Visible;
         }
+    }
+    public class MainWindowViewModel
+    {
+        public Status Status { get; set; } = new Status();
     }
     public class Status : INotifyPropertyChanged
     {
