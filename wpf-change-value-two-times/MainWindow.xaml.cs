@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 
@@ -12,7 +13,7 @@ namespace wpf_change_value_two_times
         public MainWindow() => InitializeComponent();
         new MainWindowViewModel DataContext => (MainWindowViewModel)base.DataContext;
 
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void Test_Click(object sender, RoutedEventArgs e)
         {
             DataContext.Status.ReadyVisibility = Visibility.Hidden;
 
@@ -31,6 +32,15 @@ namespace wpf_change_value_two_times
             });
 
             DataContext.Status.ReadyVisibility = Visibility.Visible;
+        }
+
+        private void TestProgrammatic_Click(object sender, RoutedEventArgs e)
+        {
+            var stopwatch = Stopwatch.StartNew();
+            Test_Click(sender, e);
+            stopwatch.Stop();
+            Dispatcher.BeginInvoke(() =>
+                MessageBox.Show($"{nameof(Test_Click)} has returned after {stopwatch.ElapsedMilliseconds} ms."));
         }
     }
     public class MainWindowViewModel

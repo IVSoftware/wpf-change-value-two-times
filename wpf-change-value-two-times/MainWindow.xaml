@@ -18,12 +18,13 @@
             <Setter Property="HorizontalContentAlignment" Value="Center"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="Height" Value="50"/>
-            <Setter Property="Width" Value="100"/>
+            <Setter Property="Width" Value="150"/>
         </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -50,14 +51,22 @@
             IsEnabled="{Binding Status.IsButtonEnabled}" 
             Content="Test"
             Grid.Row="1"
-            Click="Button_Click"/>
+            Click="Test_Click"/>
+
+        <Button 
+            Style="{StaticResource CenteredContentStyle}"
+            IsEnabled="{Binding Status.IsButtonEnabled}" 
+            Content="Test Programmatic"
+            Grid.Row="2"
+            Click="TestProgrammatic_Click"/>
 
         <ProgressBar 
             x:Name="progressBar" 
-            Grid.Row="2"
+            Grid.Row="3"
             Minimum="0" 
             Maximum="100" 
             Height="20"
-            HorizontalAlignment="Stretch"/>
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Bottom"/>
     </Grid>
 </Window>
