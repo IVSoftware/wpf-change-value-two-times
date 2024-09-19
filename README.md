@@ -1,4 +1,4 @@
-What should help your problem, is to **make the click handler async and await your processing task**. The excellent comment added by Selvin articulates the underlying issue of blocking the UI thread. Making the handler `async` fixes that. For example, you could disable the `Test` button, hide `Ready`, show `Busy`, run the work with a progress update on the UI thread, then reverse the status indicators.
+What should help your problem is to **make the click handler async and await your processing task**. The excellent comment added by Selvin articulates the underlying issue of blocking the UI thread. Making the handler `async` fixes that. For example, you could disable the `Test` button, hide `Ready`, show `Busy`, run the work with a progress update on the UI thread, then reverse the status indicators.
 
 ```
 private async void Button_Click(object sender, RoutedEventArgs e)
@@ -162,10 +162,12 @@ namespace wpf_change_value_two_times
             }
         }
         Visibility _readyVisibility = Visibility.Visible;
+
         public Visibility BusyVisibility => 
             Equals(ReadyVisibility, Visibility.Visible) ? Visibility.Hidden : Visibility.Visible;
 
-        public bool IsButtonEnabled => Equals(ReadyVisibility, Visibility.Visible);
+        public bool IsButtonEnabled => 
+            Equals(ReadyVisibility, Visibility.Visible);
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
